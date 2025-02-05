@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+
+        }
+
+        body {
+            background: linear-gradient(45deg, #4b88e3, #64ddcd);
+            width: 100%;
+            flex-direction: column;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background-color: white;
+            width: auto;
+            padding: 10px;
+            flex-direction: column;
+            gap: 10px;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        form {
+            width: 100%;
+            gap: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .fa-trash {
+            font-size: 18px;
+            padding: 15px;
+        }
+
+        input {
+            padding: 10px 20px;
+            width: 200px;
+            height: 45px;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        button {
+            padding: 10px 10px;
+            min-width: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 45px;
+            font-size: 24px;
+            border: none;
+            color: white;
+            font-weight: 700;
+            background-color: #8a46e2;
+            cursor: pointer;
+        }
+
+        .ams {
+            width: 25%;
+            font-size: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        ul {
+            background-color: white;
+            width: 100%;
+            padding: 20px;
+            gap: 20px;
+            list-style: none;
+            overflow-y: scroll;
+            max-height: 150px;
+            height: auto;
+            flex-direction: column;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        p {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        li {
+            width: 100%;
+            text-align: start;
+            padding-left: 10px;
+            font-family: sans-serif;
+            min-height: 35px;
+            background-color: rgb(239, 239, 239);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+
+        }
+
+        h2 {
+            width: 100%;
+            text-align: start;
+            margin-bottom: 20px;
+        }
+
+        i {
+            cursor: pointer;
+            transition: .3s ease-in;
+
+            &:hover {
+                color: white;
+                background-color: rgba(255, 0, 0, 0.935);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Todo App</h2>
+        <form action="#task" method="get" onsubmit="event.preventDefault(); Add();">
+            <input type="text" id="input" placeholder="Add your new todo">
+            <input type="date" id="date" placeholder="date">
+            <input type="time" id="time" placeholder="time">
+            <button type="submit">+</button>
+        </form>
+        <ul id="task"></ul>
+        <p id="pending"></p>
+        <button class="ams" id="clear" onclick="clearAll()">Clear All</button>
+    </div>
+<script>
+    let input = document.getElementById("input");
+let date = document.getElementById("date");
+let time = document.getElementById("time");
+let task = document.getElementById("task");
+let pending = document.getElementById("pending");
+
+function Add() {
+    if (!input.value.trim() || !date.value || !time.value) {
+        alert("Please fill in all fields!");
+        return;
+    }
+
+    let li = document.createElement("li");
+
+    let taskDiv = document.createElement("div");
+    taskDiv.textContent = `${input.value}`;
+    taskDiv.classList.add("task-text");
+
+    let dateDiv = document.createElement("div");
+    dateDiv.textContent = `${date.value}`;
+    dateDiv.classList.add("task-date");
+
+    let timeDiv = document.createElement("div");
+    timeDiv.textContent = `${time.value}`;
+    timeDiv.classList.add("task-time");
+
+    let deleteIcon = document.createElement("i");
+    deleteIcon.classList.add("fa-solid", "fa-trash");
+    deleteIcon.addEventListener("click", () => {
+        li.remove();
+        Todocount();
+    });
+
+    li.appendChild(taskDiv);
+    li.appendChild(dateDiv);
+    li.appendChild(timeDiv);
+    li.appendChild(deleteIcon);
+
+    task.appendChild(li);
+
+   
+    input.value = '';
+    date.value = '';
+    time.value = '';
+
+    Todocount();
+}
+
+function Todocount() {
+    const count = task.children.length;
+    pending.textContent = `You have ${count} pending task${count !== 1 ? "s" : ""}`;
+}
+
+function clearAll() {
+    task.innerHTML = "";
+    Todocount();
+}
+
+</script>
+</body>
+
+</html>
